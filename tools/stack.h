@@ -4,17 +4,17 @@
 typedef struct StackNode {
 	int x;
 	int y;
-	StackNode *link;
-};
+	struct StackNode *link;
+} Stack;
 
-StackNode *top;
+Stack *root;
 
 int isEmpty();
 
 void push(int _x, int _y);
 
-void pop(StackNode *node);
+void pop();
 
-StackNode top(StackNode *node);
+Stack top();
 
 #endif

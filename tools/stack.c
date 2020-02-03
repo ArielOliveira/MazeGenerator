@@ -1,11 +1,12 @@
 #include "stack.h"
+#include <stdlib.h>
 
 int isEmpty()  {
-	return !top;
+	return !root;
 }
 
 void push(int _x, int _y) {
-	StackNode *newNode = (StackNode*)malloc(sizeof(StackNode));
+	Stack *newNode = (Stack*)malloc(sizeof(Stack));
 
 	if (!newNode) {
 		exit(1);
@@ -13,24 +14,24 @@ void push(int _x, int _y) {
 
 	newNode->x = _x;
 	newNode->y = _y;
-	newNode->link = top;
+	newNode->link = root;
 
-	top = newNode;
+	root = newNode;
 }
 
-void pop(StackNode *node) {
-	StackNode *temp;
+void pop() {
+	Stack *temp;
 
 	if (!isEmpty()) {
-		temp = top;
-		top = top->link;
+		temp = root;
+		root = root->link;
 		free(temp);
 	}
 }
 
-StackNode top() {
+Stack top() {
 	if (!isEmpty()) {
-		return *top;
+		return *root;
 	}
 }
 

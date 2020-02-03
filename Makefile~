@@ -1,0 +1,3 @@
+stack: tools/stack.o
+tools/stack.o: tools/stack.c tools/stack.h
+	gcc -c tools/stack.c
