@@ -4,22 +4,38 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef enum {
+       	UNVISITED,
+	VISITED,
+} Status;	
+
 int randomizeInt(int max) {
 	int randomN = 0;
 	while(!randomN) randomN = rand() % max;
 	return randomN;
 }
 
-void carve(int **map, int x, int y) {
+void carve_cell(int **map, int x, int y) {
 	int i, j;
 	int nextCellX = x*CELL_SIZE;
 	int nextCellY = y*CELL_SIZE;
 	for (i = nextCellX-CELL_SIZE; i < nextCellX-1; i++) {
 	       for (j = nextCellY-CELL_SIZE; j < nextCellY-1; j++) {
-		       map[i][j] = 1;
+		       map[i][j] = VISITED;
 	       }	       
 	}
+}
 
+void sort_cell(int **map, int x, int y) {
+	int limX = x*(CELL_SIZE)-1;
+	int limY = y*(CELL_SIZE)-1;
+	if (map[limX][limY] == VISITED) {}
+}
+
+void generate() {
+	while (!isEmpty()) {
+		
+	}
 }
 
 void create_map(int **map) {
@@ -30,7 +46,7 @@ void create_map(int **map) {
 		int i,j;
 		for (i = 0; i < MAP_SIZE; i++) {
 			for (j = 0; j < MAP_SIZE; j++) {
-				map[i][j] = 0;
+				map[i][j] = UNVISITED;
 			}
 		}
 
@@ -40,7 +56,7 @@ void create_map(int **map) {
 		printf("/n %i %i/n", first_x, first_y); 
 
 		push(first_x, first_y);
-		carve(map, first_x, first_y);
+		carve_cell(map, first_x, first_y);
 	}
 }
 
