@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "fileHandler.h"
 
-void cabecalhoPPM(FILE *file, int *x, int *y) {
+void cabecalhoPPM(FILE *file, int x, int y) {
 	fprintf(file, "%c%c\n", 'P', '3');
-	fprintf(file, "%i %i\n", *x, *y);
+	fprintf(file, "%i %i\n", x, y);
 	fprintf(file, "%i\n", 255);
 }
 
-int criarArquivo(int *x, int *y, char *arquivo) {
+int criarArquivo(int x, int y, char *arquivo) {
 	FILE *file;
 	file = fopen(arquivo, "w+");
 	if (!file) {
@@ -19,7 +19,7 @@ int criarArquivo(int *x, int *y, char *arquivo) {
 	return 0;
 }
 
-int saveImage(int x, int y, pixel **imagem, char *arquivo) {
+int saveImage(int x, int y, int **map, char *arquivo) {
 	FILE *file;
 	file = fopen(arquivo, "a");
 	if (!file) {
@@ -29,7 +29,11 @@ int saveImage(int x, int y, pixel **imagem, char *arquivo) {
 	int i, j;
 	for (i = 0; i < y; i++) {
 		for (j = 0; j < x; j++) {
-			fprintf(file, "%i %i %i\n", imagem[i][j].r, imagem[i][j].g, imagem[i][j].b);
+			if (map[i][j] == 0) {
+				fprintf(file, "%i %i %i\n", 12, 12, 0);
+			} else {
+				fprintf(file, "%i %i %i\n", 128, 77, 255);
+			}
 		}
 	}
 
