@@ -1,4 +1,5 @@
 #include "stack.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 int isEmpty()  {
@@ -9,6 +10,7 @@ void push(int _x, int _y) {
 	Stack *newNode = (Stack*)malloc(sizeof(Stack));
 
 	if (!newNode) {
+		printf("Could not allocate");
 		exit(1);
 	}
 
