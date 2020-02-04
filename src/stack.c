@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "../include/stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,32 +6,26 @@ int isEmpty()  {
 	return !root;
 }
 
-void push(int _x, int _y) {
-	Stack *newNode = (Stack*)malloc(sizeof(Stack));
-
-	if (!newNode) {
+void push(Cell *new_cell) {
+	if (!new_cell) {
 		printf("Could not allocate");
 		exit(1);
 	}
-
-	newNode->x = _x;
-	newNode->y = _y;
-	newNode->link = root;
-
-	root = newNode;
+	new_cell->next = root;
+	root = new_cell;
 }
 
 void pop() {
-	Stack *temp;
+	Cell *temp;
 
 	if (!isEmpty()) {
 		temp = root;
-		root = root->link;
+		root = root->next;
 		free(temp);
 	}
 }
 
-Stack top() {
+Cell top() {
 	if (!isEmpty()) {
 		return *root;
 	}

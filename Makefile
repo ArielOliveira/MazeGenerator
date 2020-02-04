@@ -1,13 +1,13 @@
 
-tools = ./build/stack.o ./build/fileHandler.o
+tools = ./build/fileHandler.o
 
-objs = ./build/main.o ./build/backtracker.o
+objs = ./build/main.o ./build/backtracker.o ./build/stack.o
 
 MazeGen: $(objs) $(tools) 
-	gcc $^ -Wall -o MazeGen
+	gcc $^ -Wall -o MazeGen -g
 
-./build/stack.o: ./tools/stack.h ./tools/stack.c
-	gcc -c ./tools/stack.c -o $@
+./build/stack.o: ./include/stack.h ./src/stack.c
+	gcc -c ./src/stack.c -o $@
 
 ./build/main.o: ./src/main.c
 	gcc -c ./src/main.c -o $@
