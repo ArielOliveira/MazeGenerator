@@ -7,6 +7,7 @@
 typedef enum {
        	UNVISITED,
 	VISITED,
+	WALL
 } Status;
 
 typedef struct Node {
