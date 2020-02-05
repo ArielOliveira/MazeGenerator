@@ -7,12 +7,15 @@ int isEmpty()  {
 }
 
 void push(Cell *new_cell) {
+	Cell *another = (Cell*)malloc(sizeof(Cell));
 	if (!new_cell) {
 		printf("Could not allocate");
 		exit(1);
 	}
-	new_cell->next = root;
-	root = new_cell;
+
+	*another = *new_cell;
+	another->next = root;
+	root = another;
 }
 
 void pop() {

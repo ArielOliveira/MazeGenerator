@@ -14,7 +14,6 @@ void carve_cell(int **map, Cell cell) {
 	int i, j;
 	cell.x *= CELL_SIZE;
 	cell.y *= CELL_SIZE;
-	printf("%i %i", cell.x, cell.y);
 	for (i = cell.x-CELL_SIZE; i < cell.x-1; i++) {
 	       for (j = cell.y-CELL_SIZE; j < cell.y-1; j++) {
 		       map[i][j] = VISITED;
@@ -22,16 +21,7 @@ void carve_cell(int **map, Cell cell) {
 	}
 }
 
-void free_cell(Cell *cell_list) {
-	int value = cell_list->array;
-	for (value; value >= 0; value--) {
-		Cell *temp = cell_list;
-		cell_list = cell_list->next;
-		free(temp);
-	}
-}
-
-Cell* sort_cell(int **map, int x, int y) {
+Cell sort_cell(int **map, int x, int y) {
 	int i = 0;
 	
 	Cell nav[4];
@@ -46,48 +36,72 @@ Cell* sort_cell(int **map, int x, int y) {
 
 	nav[3].x = (x*CELL_SIZE);
 	nav[3].y = ((y-2)*CELL_SIZE);
-	printf(" %i %i ", x, y);
 
-	Cell *valid_nav = (Cell*)malloc(sizeof(Cell));
-	valid_nav->array = 0;
+
+	
+
+	Cell *valid_nav_list = (Cell*)malloc(sizeof(Cell));
+	valid_nav_list->next = NULL;
+	Cell valid_nav;
+	valid_nav.array = 0;
+	valid_nav_list->array = 0;
+	int j = 0;
 	for (i = 0; i < 4; i++) {
-		printf(" ======########%i %i======####### ", nav[i].x, nav[i].y);
-		if ((nav[i].x > 16 && nav[i].y > 16) &&
-			       	(nav[i].x < MAP_SIZE-16 && nav[i].y < MAP_SIZE-16)) {
+		printf(" Possible Candidates ");
+		printf(" %i %i ", nav[i].x, nav[i].y);
+		getchar();
+		if ((nav[i].x > CELL_SIZE && nav[i].y > CELL_SIZE) &&
+			       	(nav[i].x < MAP_SIZE-CELL_SIZE && nav[i].y < MAP_SIZE-CELL_SIZE)) {
 			if (map[nav[i].x][nav[i].y] == UNVISITED) {
+
+				printf(" Valid Candidates ");
+				printf(" %i %i ", nav[i].x, nav[i].y);
+				getchar();
 				Cell *new_valid = (Cell*)malloc(sizeof(Cell));
 				new_valid->x = nav[i].x/CELL_SIZE;
 				new_valid->y = nav[i].y/CELL_SIZE;
-				new_valid->array = valid_nav->array+1;
-				new_valid->next = valid_nav;
-				valid_nav = new_valid;
+				new_valid->array = ++j;
+				new_valid->next = valid_nav_list;
+				valid_nav_list = new_valid;
 			}
 		}	
 	}
-
-	if (valid_nav->next) {
-		int value = randomizeInt(valid_nav->array)+1;
+	printf("Possible valid navs: %i for %i %i pos", valid_nav_list->array, x, y);
+	getchar();
+	if (valid_nav_list->next != NULL) {
+		int value = randomizeInt(valid_nav_list->array)+1;
 		Cell *temp;
-		for (value; value > 0; value--) {
-			temp = valid_nav;
-			valid_nav = valid_nav->next;
+		int i = valid_nav_list->array;
+		for (i; i >= value ; i--) {
+			temp = valid_nav_list->next;
+		}
+
+		valid_nav.x = temp->x;
+		valid_nav.y = temp->y;
+		valid_nav.array = temp->array;
+		valid_nav.next = NULL;
+
+		while (valid_nav_list->next != NULL) {
+			temp = valid_nav_list;
+			valid_nav_list = valid_nav_list->next;
 			free(temp);
 		}
 	} else {
-		return NULL;
+		free(valid_nav_list);
 	}
 	return valid_nav;
 }
 
 void generate(int **map) {
 	int count = 0;
-	Cell *cell;
-	while (!isEmpty() && count < 8) {
+	Cell cell;
+	while (!isEmpty()) {
 		cell = sort_cell(map, top().x, top().y);
-		if (cell) {
-			//carve_cell(map, *cell);
-			push(cell);
+		if (cell.array > 0) {
+			carve_cell(map, cell);
+			push(&cell);
 		} else {
+			printf(" popping something ");
 			pop();
 		}
 		count++;
@@ -109,13 +123,13 @@ void create_map(int **map) {
 
 		int max = MAP_SIZE/CELL_SIZE;
 		
-		first_cell->x = rand()%(max-1);
-		first_cell->y = rand()%(max-1);
+		first_cell->x = (rand()+1)%(max-1);
+		first_cell->y = (rand()+1)%(max-1);
 
 		push(first_cell);
 		
-		carve_cell(map, *first_cell);
-		//generate(map);
+		carve_cell(map, top());
+		generate(map);
 		
 	}
 }
