@@ -59,11 +59,15 @@ Cell sort_cell(int **map, int x, int y) {
 		}	
 	}
 	if (valid_nav_list->next != NULL) {
-		int value = randomizeInt(valid_nav_list->array)+1;
 		Cell *temp;
-		int i = valid_nav_list->array;
-		for (i; i >= value ; i--) {
-			temp = valid_nav_list->next;
+		if (valid_nav_list->array > 1) {
+			int value = randomizeInt(valid_nav_list->array)+1;
+			int i = valid_nav_list->array;
+			for (i; i >= value ; i--) {
+				temp = valid_nav_list->next;
+			}
+		} else {
+			temp = valid_nav_list;
 		}
 
 		valid_nav.x = temp->x;
