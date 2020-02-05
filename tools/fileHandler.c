@@ -29,10 +29,14 @@ int saveImage(int x, int y, int **map, char *arquivo) {
 	int i, j;
 	for (i = 0; i < y; i++) {
 		for (j = 0; j < x; j++) {
-			if (map[i][j] == 0) {
-				fprintf(file, "%i %i %i\n", 12, 12, 0);
-			} else {
-				fprintf(file, "%i %i %i\n", 128, 77, 255);
+			switch(map[i][j]) {
+				case 0:  fprintf(file, "%i %i %i\n", 12, 12, 0);
+					break;
+				case 1:  fprintf(file, "%i %i %i\n", 128, 77, 255);
+					break;
+				case 2:  fprintf(file, "%i %i %i\n", 0, 0, 255);
+					break;
+				default: fprintf(file, "%i %i %i\n", 0, 0, 0);
 			}
 		}
 	}

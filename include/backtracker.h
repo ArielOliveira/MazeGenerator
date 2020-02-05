@@ -10,10 +10,18 @@ typedef enum {
 	WALL
 } Status;
 
+typedef enum {
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+} Direction;
+
 typedef struct Node {
 	int x;
 	int y;
 	int array;
+	Direction path;
 	struct Node *next;	
 } Cell;
 
