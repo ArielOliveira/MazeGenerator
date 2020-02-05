@@ -11,11 +11,11 @@ int randomizeInt(int max) {
 }
 
 void carve_cell(int **map, Cell cell) {
-	int i, j;
+	int i=0, j=0;
 	cell.x *= CELL_SIZE;
 	cell.y *= CELL_SIZE;
-	for (i = cell.x-CELL_SIZE; i < cell.x-1; i++) {
-	       for (j = cell.y-CELL_SIZE; j < cell.y-1; j++) {
+	for (i = cell.x-CELL_SIZE; i < cell.x; i++) {
+	       for (j = cell.y-CELL_SIZE; j < cell.y; j++) {
 		       map[i][j] = VISITED;
 	       }	       
 	}
@@ -45,29 +45,19 @@ Cell sort_cell(int **map, int x, int y) {
 	Cell valid_nav;
 	valid_nav.array = 0;
 	valid_nav_list->array = 0;
-	int j = 0;
 	for (i = 0; i < 4; i++) {
-		printf(" Possible Candidates ");
-		printf(" %i %i ", nav[i].x, nav[i].y);
-		getchar();
 		if ((nav[i].x > CELL_SIZE && nav[i].y > CELL_SIZE) &&
 			       	(nav[i].x < MAP_SIZE-CELL_SIZE && nav[i].y < MAP_SIZE-CELL_SIZE)) {
-			if (map[nav[i].x][nav[i].y] == UNVISITED) {
-
-				printf(" Valid Candidates ");
-				printf(" %i %i ", nav[i].x, nav[i].y);
-				getchar();
+			if (map[nav[i].x-CELL_SIZE][nav[i].y-CELL_SIZE] == UNVISITED) {
 				Cell *new_valid = (Cell*)malloc(sizeof(Cell));
 				new_valid->x = nav[i].x/CELL_SIZE;
 				new_valid->y = nav[i].y/CELL_SIZE;
-				new_valid->array = ++j;
+				new_valid->array = valid_nav_list->array+1;
 				new_valid->next = valid_nav_list;
 				valid_nav_list = new_valid;
 			}
 		}	
 	}
-	printf("Possible valid navs: %i for %i %i pos", valid_nav_list->array, x, y);
-	getchar();
 	if (valid_nav_list->next != NULL) {
 		int value = randomizeInt(valid_nav_list->array)+1;
 		Cell *temp;
@@ -101,7 +91,6 @@ void generate(int **map) {
 			carve_cell(map, cell);
 			push(&cell);
 		} else {
-			printf(" popping something ");
 			pop();
 		}
 		count++;
@@ -122,10 +111,12 @@ void create_map(int **map) {
 		Cell *first_cell = (Cell*)malloc(sizeof(Cell));
 
 		int max = MAP_SIZE/CELL_SIZE;
-		
-		first_cell->x = (rand()+1)%(max-1);
-		first_cell->y = (rand()+1)%(max-1);
-
+		do {
+			first_cell->x = ((rand()+1)%(max-1));
+			first_cell->y = ((rand()+1)%(max-1));
+		} while ((first_cell->x < CELL_SIZE && first_cell->y < CELL_SIZE) 
+				&& (first_cell->x > MAP_SIZE-CELL_SIZE 
+					&& first_cell->y > MAP_SIZE-CELL_SIZE));
 		push(first_cell);
 		
 		carve_cell(map, top());
