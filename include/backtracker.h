@@ -2,7 +2,7 @@
 #define BACKTRACKER_H
 
 #define CELL_SIZE 16
-#define MAP_SIZE 512
+#define MAP_SIZE 129
 
 typedef enum {
        	UNVISITED,
@@ -13,8 +13,8 @@ typedef enum {
 typedef enum {
 	NORTH,
 	SOUTH,
-	WEST,
-	EAST
+	EAST,
+	WEST
 } Direction;
 
 typedef struct Node {

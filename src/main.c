@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../include/backtracker.h"
 #include "../tools/fileHandler.h"
-#include "../tools/stack.h"
 
 int main() {
 	int **map = (int**)malloc(sizeof(int*) * MAP_SIZE);

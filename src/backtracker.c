@@ -30,16 +30,12 @@ void carve_wall(int **map, Cell cell) {
 			    wall_y = cell.y;
 			break;
 	}
-	//printf(" cell %i %i cell_pos %i %i ", cell.x, cell.y, cell.x*CELL_SIZE, cell.y*CELL_SIZE);
-	//getchar();
 
 	wall_x *= CELL_SIZE;
 	wall_y *= CELL_SIZE;
 
 	int i = 0;
        	int j = 0;
-	//printf("wall from %i %i to %i %i cell number %i %i wall side %i", wall_x-CELL_SIZE, wall_y-CELL_SIZE, wall_x, wall_y, wall_x/CELL_SIZE, wall_y/CELL_SIZE, cell.path);
-	//getchar();
 	for (i = wall_x-CELL_SIZE; i < wall_x; i++) {
 		for (j = wall_y-CELL_SIZE; j < wall_y; j++) {
 			map[i][j] = VISITED;
@@ -53,7 +49,7 @@ void carve_cell(int **map, Cell cell) {
 	cell.y *= CELL_SIZE;
 	for (i = cell.x-CELL_SIZE; i < cell.x; i++) {
 	       for (j = cell.y-CELL_SIZE; j < cell.y; j++) {
-		       map[i][j] = VISITED;
+		       map[i][j] = WALL;
 	       }	       
 	}
 }
@@ -88,6 +84,8 @@ Cell sort_cell(int **map, int x, int y) {
 		if ((nav[i].x > CELL_SIZE && nav[i].y > CELL_SIZE) &&
 			       	(nav[i].x < MAP_SIZE-CELL_SIZE && nav[i].y < MAP_SIZE-CELL_SIZE)) {
 			if (map[nav[i].x-CELL_SIZE][nav[i].y-CELL_SIZE] == UNVISITED) {
+				printf("valid navs directions %i nav pos %i %i ", nav[i].path, nav[i].x, nav[i].y);
+				getchar();
 				Cell *new_valid = (Cell*)malloc(sizeof(Cell));
 				new_valid->x = nav[i].x/CELL_SIZE;
 				new_valid->y = nav[i].y/CELL_SIZE;
@@ -133,6 +131,8 @@ void generate(int **map) {
 	while (!isEmpty()) {
 		cell = sort_cell(map, top().x, top().y);
 		if (cell.array > 0) {
+			printf(" nav chosen %i position %i %i ", cell.path, cell.x*CELL_SIZE, cell.y*CELL_SIZE);
+			getchar();
 			carve_cell(map, cell);
 			carve_wall(map, cell);
 			push(&cell);
@@ -160,11 +160,14 @@ void create_map(int **map) {
 		do {
 			first_cell->x = ((rand()+1)%(max-1));
 			first_cell->y = ((rand()+1)%(max-1));
-		} while ((first_cell->x < CELL_SIZE && first_cell->y < CELL_SIZE) 
-				&& (first_cell->x > MAP_SIZE-CELL_SIZE 
-					&& first_cell->y > MAP_SIZE-CELL_SIZE));
+			printf("first cell %i %i ", first_cell->x, first_cell->y);
+			getchar();
+		}	while((first_cell->x*CELL_SIZE < CELL_SIZE) 
+				&& (first_cell->y*CELL_SIZE < CELL_SIZE)
+				|| (first_cell->x*CELL_SIZE > (MAP_SIZE-CELL_SIZE)
+				&& (first_cell->y*CELL_SIZE > (MAP_SIZE-CELL_SIZE))));
 		push(first_cell);
-		
+
 		carve_cell(map, top());
 		generate(map);
 		

@@ -34,7 +34,7 @@ int saveImage(int x, int y, int **map, char *arquivo) {
 					break;
 				case 1:  fprintf(file, "%i %i %i\n", 128, 77, 255);
 					break;
-				case 2:  fprintf(file, "%i %i %i\n", 0, 0, 255);
+				case 2:  fprintf(file, "%i %i %i\n", 128, 77, 255);
 					break;
 				default: fprintf(file, "%i %i %i\n", 0, 0, 0);
 			}

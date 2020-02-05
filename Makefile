@@ -9,7 +9,7 @@ MazeGen: $(objs) $(tools)
 ./build/stack.o: ./include/stack.h ./src/stack.c
 	gcc -c ./src/stack.c -o $@
 
-./build/main.o: ./src/main.c
+./build/main.o: ./src/main.c ./include/backtracker.h
 	gcc -c ./src/main.c -o $@
 
 ./build/fileHandler.o: ./tools/fileHandler.h ./tools/fileHandler.c
