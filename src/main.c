@@ -30,18 +30,6 @@ int **draw(Cell **cell) {
 	return pixel_map;
 }
 
-void draw_char(Cell **cell) {
-	int i=0;
-	int j=0;
-	for (i = 0; i < MAP_SIZE; i++) {
-		for (j=0; j<MAP_SIZE;j++) {
-			printf("%c", cell[j][i].display);
-		}
-		getchar();
-	}
-
-}
-
 int main() {
 	Cell **map = (Cell**)malloc(sizeof(Cell*) * MAP_SIZE);
 	int i;
@@ -53,7 +41,6 @@ int main() {
 
 	int **pixel_map = draw(map);
 	int pixel_map_size = MAP_SIZE*CELL_SIZE;
-	draw_char(map);
 	char *arquivo = (char*)malloc(sizeof(char) * 10);
 	arquivo = "map.ppm";
 
