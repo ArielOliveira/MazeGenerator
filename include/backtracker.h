@@ -2,7 +2,7 @@
 #define BACKTRACKER_H
 
 #define CELL_SIZE 16
-#define MAP_SIZE 5
+#define MAP_SIZE 11
 
 typedef enum {
        	UNVISITED,
@@ -20,6 +20,7 @@ typedef enum {
 typedef struct Node {
 	int x;
 	int y;
+	char display;
 	int array;
 	int status;
 	int top_wall;
