@@ -12,90 +12,73 @@ int randomizeInt(int max) {
 	return randomN;
 }
 
-void carve_wall(int **map, Cell cell) {
-	int wall_x = 0;
-	int wall_y = 0;
+void carve_cell(Cell **map, Cell cell) {
+	map[cell.x][cell.y].status = VISITED;
+	map[cell.x][cell.y].x = i;
+	map[cell.x][cell.y].y = j;
 
 	switch(cell.path) {
-		case NORTH: wall_x = cell.x;
-			    wall_y = cell.y+1;
-		     	break;
-		case SOUTH: wall_x = cell.x;
-			    wall_y = cell.y-1;
+		case NORTH: 
 			break;
-		case EAST:  wall_x = cell.x-1;
-			    wall_y = cell.y;
+		case SOUTH:
 			break;
-		case WEST:  wall_x = cell.x+1;
-			    wall_y = cell.y;
+		case EAST:
+			break;
+		case WEST:
+			break;
+		default:
 			break;
 	}
+	
 
-	wall_x *= CELL_SIZE;
-	wall_y *= CELL_SIZE;
-
-	int i = 0;
-       	int j = 0;
-	for (i = wall_x-CELL_SIZE; i < wall_x; i++) {
-		for (j = wall_y-CELL_SIZE; j < wall_y; j++) {
-			map[i][j] = VISITED;
-		}
-	}
 }
 
-void carve_cell(int **map, Cell cell) {
-	int i=0, j=0;
-	cell.x *= CELL_SIZE;
-	cell.y *= CELL_SIZE;
-	for (i = cell.x-CELL_SIZE; i < cell.x; i++) {
-	       for (j = cell.y-CELL_SIZE; j < cell.y; j++) {
-		       map[i][j] = WALL;
-	       }	       
-	}
+void store_nav(Cell *nav_list, Cell candidate) {	
+	Cell *new_valid = (Cell*)malloc(sizeof(Cell));
+	new_valid->x = candidate.x;
+	new_valid->y = candidate.y;
+	new_valid->path = candidate.path;
+	new_valid->array = nav_list->array+1;
+	new_valid->next = nav_list;
+	nav_list = new_valid;
 }
 
-Cell sort_cell(int **map, int x, int y) {
-	Cell nav[4];
-
-	nav[0].x = ((x+2)*CELL_SIZE);
-	nav[0].y = (y*CELL_SIZE);
-	nav[0].path = EAST;
-
-	nav[1].x = ((x-2)*CELL_SIZE);
-	nav[1].y = (y*CELL_SIZE);
-	nav[1].path = WEST;
-
-	nav[2].x = (x*CELL_SIZE);
-	nav[2].y = ((y+2)*CELL_SIZE);
-	nav[2].path = SOUTH;
-
-	nav[3].x = (x*CELL_SIZE);
-	nav[3].y = ((y-2)*CELL_SIZE);
-	nav[3].path = NORTH;
+Cell sort_cell(Cell **map, int x, int y) {
 
 	Cell *valid_nav_list = (Cell*)malloc(sizeof(Cell));
 	valid_nav_list->next = NULL;
-	Cell valid_nav;
-	valid_nav.array = 0;
 	valid_nav_list->array = 0;
 
-	int i = 0;
-	for (i = 0; i < 4; i++) {
-		if ((nav[i].x > CELL_SIZE && nav[i].y > CELL_SIZE) &&
-			       	(nav[i].x < MAP_SIZE-CELL_SIZE && nav[i].y < MAP_SIZE-CELL_SIZE)) {
-			if (map[nav[i].x-CELL_SIZE][nav[i].y-CELL_SIZE] == UNVISITED) {
-				printf("valid navs directions %i nav pos %i %i ", nav[i].path, nav[i].x, nav[i].y);
-				getchar();
-				Cell *new_valid = (Cell*)malloc(sizeof(Cell));
-				new_valid->x = nav[i].x/CELL_SIZE;
-				new_valid->y = nav[i].y/CELL_SIZE;
-				new_valid->path = nav[i].path;
-				new_valid->array = valid_nav_list->array+1;
-				new_valid->next = valid_nav_list;
-				valid_nav_list = new_valid;
-			}
-		}	
+	Cell valid_nav;
+	valid_nav.array = 0;
+
+	if ((map[x+2][y].status == UNVISITED) 
+			&& (map[x][y].right_wall == 1)
+			&& (map[x+2][y].left_wall == 1)) {
+		Cell nav;
+		nav.x = x+2;
+		nav.y = y;
+		nav.path = EAST;
+		store_nav(valid_nav_list, nav);
 	}
+
+	if ((map[x-2][y].status == UNVISITED)
+			&& (map[x][y].left_wall == 1)
+			&& (map[x-2][y].right_wall == 1)) {
+	}
+
+	if ((map[x][y+2].status == UNVISITED)
+			&& (map[x][y].bot_wall == 1)
+			&& (map[x][y+2].top_wall == 1)) {
+
+	}
+
+	if ((map[x][y-2].status == UNVISITED)
+			&& (map[x][y].top_wall == 1)
+			&& (map[x][y-2].bot_wall ==1)) {
+	}
+
+
 	if (valid_nav_list->next != NULL) {
 		Cell *temp;
 		if (valid_nav_list->array > 1) {
@@ -125,25 +108,22 @@ Cell sort_cell(int **map, int x, int y) {
 	return valid_nav;
 }
 
-void generate(int **map) {
+void generate(Cell **map) {
 	int count = 0;
 	Cell cell;
-	while (!isEmpty()) {
+	while (!isEmpty() && count <= 0) {
 		cell = sort_cell(map, top().x, top().y);
 		if (cell.array > 0) {
-			printf(" nav chosen %i position %i %i ", cell.path, cell.x*CELL_SIZE, cell.y*CELL_SIZE);
-			getchar();
-			carve_cell(map, cell);
-			carve_wall(map, cell);
-			push(&cell);
+			//carve_cell(map, cell);
+			//push(&cell);
 		} else {
-			pop();
+			//pop();
 		}
 		count++;
 	}
 }
 
-void create_map(int **map) {
+void create_map(Cell **map) {
 	srand(time(NULL));
 	if (!map) {
 		exit(1);
@@ -151,25 +131,37 @@ void create_map(int **map) {
 		int i,j;
 		for (i = 0; i < MAP_SIZE; i++) {
 			for (j = 0; j < MAP_SIZE; j++) {
-				map[i][j] = UNVISITED;
+				map[i][j].x = i;
+				map[i][j].y = j;
+				map[i][j].array = i;
+				map[i][j].status = UNVISITED;
+				map[i][j].top_wall = 1;
+				map[i][j].bot_wall = 1;
+				map[i][j].left_wall = 1;
+				map[i][j].right_wall = 1;
+				map[i][j].path = -1;
+				map[i][j].next = NULL;
+			}
+		}
+
+		for (i = 1; i < MAP_SIZE-1; i++) {
+			for (j = 1; j < MAP_SIZE-1; j++) {
+				map[i][1].top_wall = 0;
+				map[MAP_SIZE-2][j].bot_wall = 0;
+				map[i][1].left_wall = 0;
+				map[i][MAP_SIZE-2].right_wall = 0;
 			}
 		}
 		Cell *first_cell = (Cell*)malloc(sizeof(Cell));
 
-		int max = MAP_SIZE/CELL_SIZE;
 		do {
-			first_cell->x = ((rand()+1)%(max-1));
-			first_cell->y = ((rand()+1)%(max-1));
-			printf("first cell %i %i ", first_cell->x, first_cell->y);
-			getchar();
-		}	while((first_cell->x*CELL_SIZE < CELL_SIZE) 
-				&& (first_cell->y*CELL_SIZE < CELL_SIZE)
-				|| (first_cell->x*CELL_SIZE > (MAP_SIZE-CELL_SIZE)
-				&& (first_cell->y*CELL_SIZE > (MAP_SIZE-CELL_SIZE))));
+			first_cell->x = ((rand())%(MAP_SIZE))+1;
+			first_cell->y = ((rand())%(MAP_SIZE))+1;
+		}	while((first_cell->x <= 1) && (first_cell->y <= 1));
 		push(first_cell);
 
 		carve_cell(map, top());
-		generate(map);
+		//generate(map);
 		
 	}
 }

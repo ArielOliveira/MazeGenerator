@@ -4,19 +4,19 @@
 #include "../tools/fileHandler.h"
 
 int main() {
-	int **map = (int**)malloc(sizeof(int*) * MAP_SIZE);
+	Cell **map = (Cell**)malloc(sizeof(Cell*) * MAP_SIZE);
 	int i;
 	for (i = 0; i < MAP_SIZE; i++) {
-		map[i] = (int*)malloc(sizeof(int) * MAP_SIZE);
+		map[i] = (Cell*)malloc(sizeof(Cell) * MAP_SIZE);
 	}
 
 	create_map(map);
 
-	char *arquivo = (char*)malloc(sizeof(char) * 10);
-	arquivo = "map.ppm";
+	//char *arquivo = (char*)malloc(sizeof(char) * 10);
+	//arquivo = "map.ppm";
 
-	criarArquivo(MAP_SIZE, MAP_SIZE, arquivo);
-	saveImage(MAP_SIZE, MAP_SIZE, map, arquivo);
+	//criarArquivo(MAP_SIZE, MAP_SIZE, arquivo);
+	//saveImage(MAP_SIZE, MAP_SIZE, map, arquivo);
 
 	return 0;
 }
