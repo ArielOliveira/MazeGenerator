@@ -112,10 +112,10 @@ void generate(Cell **map) {
 	int count = 0;
 	Cell cell;
 	while (!isEmpty()) {
-		cell = sort_cell(map, top().x, top().y);
+		cell = sort_cell(map, ((Cell*)top())->x, ((Cell*)top())->y);
 		if (cell.array > 0) {
 			carve_cell(map, cell);
-			push(&cell);
+			push(&cell, sizeof(Cell));
 		} else {
 			pop();
 		}
@@ -153,15 +153,16 @@ void create_map(Cell **map) {
 				map[MAP_SIZE-1][j].right_wall = 0;
 			}
 		}
-		Cell *first_cell = (Cell*)malloc(sizeof(Cell));
-		first_cell->path = -1;
+		Cell first_cell;
+		first_cell.path = -1;
 
 		do {
-			first_cell->x = ((rand())%(MAP_SIZE-2))+1;
-			first_cell->y = ((rand())%(MAP_SIZE-2))+1;
-		} while((first_cell->x < 1) && (first_cell->y < 1));
-		push(first_cell);
-		carve_cell(map, top());
+			first_cell.x = ((rand())%(MAP_SIZE-2))+1;
+			first_cell.y = ((rand())%(MAP_SIZE-2))+1;
+		} while((first_cell.x < 1) && (first_cell.y < 1));
+		push(&first_cell, sizeof(Cell));
+
+		carve_cell(map, *((Cell*)top()));
 		generate(map);
 		
 	}

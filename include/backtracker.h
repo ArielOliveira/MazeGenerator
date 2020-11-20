@@ -5,7 +5,7 @@
 #define MAP_SIZE 13
 
 typedef enum {
-       	UNVISITED,
+    UNVISITED,
 	VISITED,
 	WALL
 } Status;

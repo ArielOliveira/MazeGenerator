@@ -1,22 +1,25 @@
 
 tools = ./build/fileHandler.o
 
-objs = ./build/main.o ./build/backtracker.o ./build/stack.o
+objs = ./build/main.o ./build/backtracker.o ./build/stack.o ./build/drawer.o
 
 MazeGen: $(objs) $(tools) 
 	gcc $^ -Wall -o MazeGen -g
 
-./build/stack.o: ./include/stack.h ./src/stack.c
-	gcc -c ./src/stack.c -o $@
-
-./build/main.o: ./src/main.c ./include/backtracker.h
+./build/main.o: ./src/main.c
 	gcc -c ./src/main.c -o $@
 
-./build/fileHandler.o: ./tools/fileHandler.h ./tools/fileHandler.c
+./build/stack.o: ./src/stack.c ./include/stack.h
+	gcc -c ./src/stack.c -o $@
+
+./build/fileHandler.o: ./tools/fileHandler.c ./tools/fileHandler.h
 	gcc -c ./tools/fileHandler.c -o $@
 
-./build/backtracker.o: ./include/backtracker.h ./src/backtracker.c
+./build/backtracker.o: ./src/backtracker.c ./include/backtracker.h
 	gcc -c ./src/backtracker.c -o $@
+
+./build/drawer.o: ./src/drawer.c ./include/drawer.h
+	gcc -c ./src/drawer.c -o $@
 
 clean:
 	rm ./build/*.o

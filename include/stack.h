@@ -1,16 +1,21 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "../include/backtracker.h"
+typedef struct Stack {
+    void* data;
+    struct Stack* next;
+} Element;
 
-Cell *root;
+Element *first;
+
+void init_stack(int elementSize);
 
 int isEmpty();
 
-void push(Cell *new_cell);
+void push(const void* data, int elementSize);
 
 void pop();
 
-Cell top();
+void* top();
 
 #endif

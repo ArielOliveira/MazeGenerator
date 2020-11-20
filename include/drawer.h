@@ -3,6 +3,6 @@
 
 #include "../include/backtracker.h"
 
-void draw(Cell cell);
+int** get_pixel_map(Cell** cell);
 
 #endif

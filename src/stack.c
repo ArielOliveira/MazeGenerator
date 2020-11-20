@@ -1,36 +1,37 @@
 #include "../include/stack.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int isEmpty()  {
-	return !root;
+	return !first;
 }
 
-void push(Cell *new_cell) {
-	Cell *another = (Cell*)malloc(sizeof(Cell));
-	if (!new_cell) {
+void push(const void* data, int elementSize) {
+	Element *another = (Element*)malloc(sizeof(Element));
+	if (!another) {
 		printf("Could not allocate");
-		exit(1);
+		exit(-1);
 	}
-
-	*another = *new_cell;
-	another->next = root;
-	root = another;
+	another->data = malloc(elementSize);
+	memcpy(another->data, data, elementSize);
+	another->next = first;
+	first = another;
 }
 
 void pop() {
-	Cell *temp;
+	Element *temp;
 
 	if (!isEmpty()) {
-		temp = root;
-		root = root->next;
+		temp = first;
+		first = first->next;
 		free(temp);
 	}
 }
 
-Cell top() {
+void* top() {
 	if (!isEmpty()) {
-		return *root;
+		return first->data;
 	}
 }
 
