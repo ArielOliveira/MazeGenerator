@@ -8,7 +8,7 @@
 
 int main(int argc, char **argv) {
 	if (argc >= 2) 	MAP_SIZE = atoi(argv[1]);
-	else MAP_SIZE = 32;
+	else MAP_SIZE = 33;
 
 	if (argc >= 3)	CELL_SIZE = atoi(argv[2]);	
 	else CELL_SIZE = 32;
