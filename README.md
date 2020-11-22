@@ -28,8 +28,10 @@ map size will be 33 and cell size 32.
 
 ## Demo
  - 16x16 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map16x16.jpg" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map16x16.png" width="270" height="420">
+ 
  - 32x32 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map32x32.jpg" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map32x32.png" width="270" height="420">
+ 
  - 64x64 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map64x64.jpg" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map64x64.png" width="270" height="420">
