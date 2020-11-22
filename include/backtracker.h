@@ -1,8 +1,8 @@
 #ifndef BACKTRACKER_H
 #define BACKTRACKER_H
 
-#define CELL_SIZE 32
-#define MAP_SIZE 13
+int CELL_SIZE;
+int MAP_SIZE;
 
 typedef enum {
     UNVISITED,

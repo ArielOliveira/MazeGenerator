@@ -14,6 +14,7 @@ int** get_pixel_map(Cell** cell) {
 	int l = 0, m = 0, n = 0;
 	for (i = 0; i < MAP_SIZE; i++) {
 		m++;
+		if (m > MAP_SIZE) m = 1;
 		for (j = 0; j < MAP_SIZE; j++) {
 			n++;
 			if (n > MAP_SIZE) n = 1;

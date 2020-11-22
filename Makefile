@@ -4,9 +4,9 @@ tools = ./build/fileHandler.o
 objs = ./build/main.o ./build/backtracker.o ./build/stack.o ./build/drawer.o
 
 MazeGen: $(objs) $(tools) 
-	gcc $^ -Wall -o MazeGen -g
+	gcc $^ -Wall -o MazeGen
 
-./build/main.o: ./src/main.c
+./build/main.o: ./src/main.c ./include/backtracker.h ./include/stack.h ./include/drawer.h
 	gcc -c ./src/main.c -o $@
 
 ./build/stack.o: ./src/stack.c ./include/stack.h
