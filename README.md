@@ -27,8 +27,8 @@ algorithm map is based on a cell grid and goes as follows:
       
 ## Execution
 - The executable takes 2 arguments from command line, one for the map size other for the cell size,
-always pick an odd number for the map size, otherwise the maze won't fit well in the boundaries. By default
-map size will be 33x33 and cell size 32.
+always pick an square+1 (e.g: 32 + 1 = 33) number for the map size, otherwise the maze won't fit well in the boundaries. By default
+map size will be 32x32 and cell size 32.
      - Example:  ./MazeGen 65 32
      
      This example generates a 64x64 map with a 32 size in pixels cell
