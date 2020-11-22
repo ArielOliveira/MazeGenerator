@@ -24,14 +24,14 @@ algorithm map is based on a cell grid and goes as follows:
 ## Execution
 The executable takes 2 arguments from command line, one for the map size other for the cell size,
 always pick an odd number for the map size, otherwise the maze won't fit well in the boundaries. By default
-map size will be 33 and cell size 32.
+map size will be 33x33 and cell size 32.
 
 ## Demo
  - 16x16 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map16x16.png" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map16x16.png" width="270" height="270">
  
  - 32x32 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map32x32.png" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map32x32.png" width="270" height="270">
  
  - 64x64 Maze
- <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map64x64.png" width="270" height="420">
+ <img src="https://github.com/ArielOliveira/MazeGenerator/blob/master/demo/map64x64.png" width="270" height="270">
